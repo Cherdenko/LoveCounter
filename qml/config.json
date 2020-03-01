@@ -1,8 +1,8 @@
 {
-    "title": "LoveCounter",
-    "identifier": "com.sourCeDev.LoveCounter",
+    "title": "Love Counter",
+    "identifier": "de.sourCeDev.LoveCounter",
     "orientation": "auto",
     "versioncode": 1,
-    "versionname": "0.0.1a",
+    "versionname": "1.0.0",
     "stage": "test"
 }
