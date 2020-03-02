@@ -5,6 +5,9 @@ Item {
 
     id: item
     anchors.fill: parent
-    LoveCounterMainPage{}
+
+    LoveCounterMainPage{
+
+    }
 
 }

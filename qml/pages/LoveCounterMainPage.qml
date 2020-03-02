@@ -9,7 +9,6 @@ Page {
     useSafeArea: false
     // Page should only be in Charge of showing data, not getting data
     //The Item  should be in charge to get the data
-
     NavigationStack {
 
         id: navStack
