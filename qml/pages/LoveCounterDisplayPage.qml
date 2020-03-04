@@ -1,11 +1,21 @@
 import QtQuick 2.5
 import Felgo 3.0
 
-Page {
+ FlickablePage{
 
 
     id: displayPage
 
+    // set contentHeight of flickable to allow scrolling
+   flickable.contentHeight: displayDays.y + 100
+
+
+
+
+
+
+
+    // set false to hide the scroll indicator, it is visible by default
 
 
     rightBarItem:  NavigationBarRow{
@@ -25,10 +35,11 @@ Page {
     }
 
 
-    AppFlickable{
-        id : flickAblePageS
-        anchors.fill: parent
-        contentHeight: defaultColumn.height
+
+//    AppFlickable{
+//        id : flickAblePageS
+//        anchors.fill: parent
+//        contentHeight: defaultColumn.height
 
 
 
@@ -36,6 +47,7 @@ Page {
 
             id: defaultColumn
             width: parent.width
+
             anchors.left: parent.left
             anchors.top: parent.top;
             anchors.right: parent.right
@@ -54,28 +66,10 @@ Page {
                 horizontalAlignment: AppImage.AlignHCenter
 
             }
-
-
-
-
-//            AppText{
-//                font.family: "Arial"
-//                id:togetherSince
-//                width: parent.width
-//                horizontalAlignment: AppText.AlignHCenter
-//                color: "#4B0014"
-//                text: qsTr("You are together since: " + settings.getValue("startOfRelationShipString"))
-//                wrapMode: "WrapAtWordBoundaryOrAnywhere"
-
-
-
-
-
-
-//            }
             AppText{
 
                 id: centerItem
+
                 width: parent.width
                 horizontalAlignment: AppText.AlignHCenter
                 text: qsTr("This means: ")
@@ -105,18 +99,13 @@ Page {
             }
 
 
-
-
-
-
-
-
         }
         Rectangle{
-            y: textInPicture.y
+            y: textInPicture.y - 5
             color: "#4B0014"
             width: parent.width
-            height: textInPicture.height
+            height: textInPicture.height +10
+
 
         }
         AppText{
@@ -128,17 +117,19 @@ Page {
             color: "white"
             text: settings.getValue("startOfRelationShipString")
         }
-    }
+//    }
     Storage{
 
         id: settings
 
         Component.onCompleted: {
+             //console.debug("Height of content "+ displayPage.flickable.height +  "height of screen " + screenHeight)
             var partner1 = settings.getValue("partner1")
             var partner2 = settings.getValue("partner2")
             var zusammenSeit = settings.getValue("startOfRelationShip")
             displayPage.title = partner1 + " & " + partner2
-
+            if(settings.getValue("coupleImage") !== "")
+                coupleImage.source = settings.getValue("coupleImage")
             if(partner1 === undefined || partner2 === undefined || zusammenSeit === undefined ) executeOrder66()
         }
 
@@ -150,44 +141,75 @@ Page {
         var partner1 = settings.getValue("partner1")
         var partner2 = settings.getValue("partner2")
         var zusammenSeit = settings.getValue("startOfRelationShip")
-        togetherSince.text = 'You are together since: ' + settings.getValue("startOfRelationShipString")
+        textInPicture.text =  settings.getValue("startOfRelationShipString")
         displayPage.title = partner1 + " & " + partner2
-        togetherSince.update()
+        if(settings.getValue("coupleImage") !== "")
+            coupleImage.source = settings.getValue("coupleImage")
         getDates("UPDATE_ALL")
 
+
+
     }
+    function getYear(dateNow, dateGotTogether){
+        var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
+        if(diff.getUTCFullYear() -1970 === 0){
+            displayYears.visible = false
+            return false
+        } else{
+            displayYears.visible = true
+            return diff.getUTCFullYear() -1970
+        }
+    }
+    function getMonth(dateNow, dateGotTogether){
+        var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
+        if(diff.getUTCMonth() === 0 ){
+            displayMonths.visible = false
+            return false
+        } else{
+            displayMonths.visible = true
+            return diff.getUTCMonth()
+        }
+    }
+    function getDay(dateNow, dateGotTogether){
+        var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
+        if(diff.getUTCDate === 0){
+            displayDays.visible = false
+            return false
+        }else{
+        displayDays.visible = true
+        return diff.getUTCDate() - 1
+        }
+    }
+
     function getDates(value){
         var dateNow = new Date();
         var dateGotTogether = new Date(settings.getValue("startOfRelationShip"))
-        console.debug(dateNow + dateGotTogether)
-        var diff = null
         if(value === "Year"){
-            diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
-            if(diff.getUTCFullYear() -1970 === 0){ displayYears.visible = false
-                return false
-            } else return diff.getUTCFullYear() -1970 != 0
+             return getYear(dateNow, dateGotTogether)
         }
         if(value === "Months"){
-            diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
-            if(diff.getUTCMonth() === 0 ){
-                displayMonths.visible = false
-                return false
-            } else return diff.getUTCMonth()
+            return getMonth(dateNow, dateGotTogether)
         }
         if(value === "Date"){
-            diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
-            return diff.getUTCDate() - 1
+            return getDay(dateNow, dateGotTogether)
         }
 
+        // i need to do the same shit here as above, so i need to make displayMonths visible if it is refreshed
         if(value === "UPDATE_ALL"){
-            displayYears.text = new Date(dateNow.getTime() - dateGotTogether.getTime()).getUTCFullYear() -1970 + qsTr(" Years")
-            displayMonths.text = new Date(dateNow.getTime() - dateGotTogether.getTime()).getUTCMonth() + qsTr(" Months")
-            displayDays.text = new Date(dateNow.getTime() - dateGotTogether.getTime()).getUTCDate() - 1 + qsTr(" Days")
+            displayYears.text = getYear(dateNow, dateGotTogether) + qsTr(" Years")
+            displayMonths.text = getMonth(dateNow, dateGotTogether) + qsTr(" Months")
+            displayDays.text = getDay(dateNow, dateGotTogether) + qsTr(" Days")
         }
+
+
 
     }
     function executeOrder66(){
+
         defaultColumn.visible = false
     }
+
+
+
 }
 

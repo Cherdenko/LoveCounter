@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Felgo 3.0
 Page {
-
+    property string coupleImage : ""
     id: settings
     title: qsTr("Love Counter")
 
@@ -21,24 +21,15 @@ Page {
             width: parent.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.pixelSize: sp(12)
-            text:qsTr("It Seems like you are starting the app for the first time :) <br\> The App will need some Information first, before we beginn. This information is only stored locally and will never be send to anyone !")
+            text:qsTr("The information which you will be entering in the fields below is at any time only stored locally and will not be sent to any server whatsoever!")
         }
-
-        //        AppText{
-        //            width: parent.width
-        //            font.pixelSize: sp(12)
-        //            color: Theme.secondaryTextColor
-        //            font.italic: true
-        //            text: qsTr("Hint: you can quickly find something by typing 'London'...")
-        //            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        //        }
 
         AppText{
             width: parent.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.pixelSize: sp(12)
             font.bold: true
-            text: qsTr("Lets' start with your name first.")
+            text: qsTr("Your name:")
 
         }
         AppTextField{
@@ -54,7 +45,7 @@ Page {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.pixelSize: sp(12)
             font.bold: true;
-            text: qsTr("And the name of your partner")
+            text: qsTr("The name of your partner")
         }
 
         AppTextField{
@@ -70,7 +61,7 @@ Page {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.pixelSize: sp(12)
             font.bold: true
-            text: qsTr("And lastly the date when you both got together")
+            text: qsTr("Please enter the date when you got together")
         }
 
         AppTextField{
@@ -84,13 +75,37 @@ Page {
                 nativeUtils.displayDatePicker(new Date(), new Date('1899-01-01T00:00:00'), new Date())
             }
         }
+        AppText{
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            font.pixelSize: sp(12)
+            font.bold: true
+            text: qsTr("Select your own custom picture")
+        }
+        AppButton{
+
+            text: qsTr("Select Image")
+            onClicked:{nativeUtils.displayImagePicker(qsTr("Select Image"))}
+
+        }
+
         AppTextField{
             id: dummy
+            visible: false
+        }
+        AppTextField{
+            id:dummyImagePath
             visible: false
         }
 
         Connections{
             target: nativeUtils
+            onImagePickerFinished:{
+                if(accepted){
+                    dummyImagePath.text = path
+
+                }
+            }
 
             onDatePickerFinished:{
                 var day = ""
@@ -137,7 +152,7 @@ Page {
             partner2.text = storage.getValue("partner2")
             dateInput.text = storage.getValue("startOfRelationShipString")
             dummy.text = storage.getValue("startOfRelationShip")
-
+            dummyImagePath.text = storage.getValue("coupleImage")
         }
 
         function saveSettings(){
@@ -146,12 +161,14 @@ Page {
                 storage.setValue("partner2",partner2.text.trim());
                 storage.setValue("startOfRelationShip", dummy.text)
                 storage.setValue("startOfRelationShipString", dateInput.text.trim())
+                console.debug(coupleImage)
+                storage.setValue("coupleImage",  dummyImagePath.text)
 
                 console.debug(storage.getValue("partner1"))
                 console.debug(storage.getValue("partner2"))
                 console.debug(storage.getValue("startOfRelationShip"))
                 navigationStack.pop(Qt.resolvedUrl(settings))
-                refreshBar.visible =  false
+
             } else{
 
             }
