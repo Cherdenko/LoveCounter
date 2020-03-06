@@ -8,7 +8,7 @@ CONFIG += felgo
 # Project identifier and version
 # More information: https://felgo.com/doc/felgo-publishing/#project-configuration
 PRODUCT_IDENTIFIER = de.sourCeDev.LoveCounter
-PRODUCT_VERSION_NAME = 1.0.0
+PRODUCT_VERSION_NAME = 0.9.0
 PRODUCT_VERSION_CODE = 1
 
 # Optionally set a license key that is used instead of the license key from
@@ -18,14 +18,14 @@ PRODUCT_VERSION_CODE = 1
 PRODUCT_LICENSE_KEY = ""
 
 qmlFolder.source = qml
-DEPLOYMENTFOLDERS += qmlFolder # comment for publishing
+#DEPLOYMENTFOLDERS += qmlFolder # comment for publishing
 
 assetsFolder.source = assets
 DEPLOYMENTFOLDERS += assetsFolder
 
 # Add more folders to ship with the application here
 
-RESOURCES += #    resources.qrc # uncomment for publishing
+RESOURCES +=     resources.qrc # uncomment for publishing
 
 # NOTE: for PUBLISHING, perform the following steps:
 # 1. comment the DEPLOYMENTFOLDERS += qmlFolder line above, to avoid shipping your qml files with the application (instead they get compiled to the app binary)
@@ -60,5 +60,6 @@ macx {
 }
 
 DISTFILES += \
+    qml/pages/LoveCounterInfoPage.qml \
     qml/pages/LoveCounterMainPage.qml \
     qml/pages/LoveCounterSettingsPage.qml

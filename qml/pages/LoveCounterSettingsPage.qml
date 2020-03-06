@@ -1,10 +1,20 @@
 import QtQuick 2.0
 import Felgo 3.0
+
 Page {
     property string coupleImage : ""
     id: settings
     title: qsTr("Love Counter")
+        rightBarItem:  NavigationBarRow{
 
+
+            IconButtonBarItem{
+                icon: IconType.info
+                title: qsTr("Info")
+                onClicked:   navigationStack.push(Qt.resolvedUrl("LoveCounterInfoPage.qml"))
+            }
+
+        }
 
 
     Column{
@@ -20,8 +30,9 @@ Page {
         AppText{
             width: parent.width
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            font.pixelSize: sp(12)
-            text:qsTr("The information which you will be entering in the fields below is at any time only stored locally and will not be sent to any server whatsoever!")
+            font.pixelSize: sp(22)
+            font.bold: true
+            text:qsTr("Settings:")
         }
 
         AppText{
@@ -38,6 +49,7 @@ Page {
             showClearButton: true
             placeholderText: "Name 1"
             inputMethodHints: Qt.ImhNoPredictiveText
+                  onEditingFinished: savePartner1()
 
         }
         AppText{
@@ -54,6 +66,7 @@ Page {
             showClearButton: true
             placeholderText: "Name 2"
             inputMethodHints: Qt.ImhNoPredictiveText
+            onEditingFinished: savePartner2()
         }
 
         AppText{
@@ -98,12 +111,15 @@ Page {
             visible: false
         }
 
+
         Connections{
             target: nativeUtils
+
+
             onImagePickerFinished:{
                 if(accepted){
                     dummyImagePath.text = path
-
+                    storage.setValue("coupleImage",  dummyImagePath.text)
                 }
             }
 
@@ -122,10 +138,14 @@ Page {
                         tempMonth = date.getUTCMonth() +1
                         month = tempMonth
                     }
+
                     var relationShipDate = date
                     var displayValue = day + "."+ month + "." + date.getUTCFullYear()
                     dummy.text = date
                     dateInput.text = displayValue
+                    storage.setValue("startOfRelationShip", dummy.text)
+                    storage.setValue("startOfRelationShipString", dateInput.text.trim())
+                                 storage.setValue("firstAppStart", true)
                 }
             }
 
@@ -133,17 +153,22 @@ Page {
         }
 
 
-        AppButton{
-            id:acceptSettings
-            width: parent.width
-            text: qsTr("Accept Settings")
-            onClicked: storage.saveSettings()
+//        AppButton{
+//            id:acceptSettings
+//            width: parent.width
+//            text: qsTr("Accept Settings")
+//            onClicked: storage.saveSettings()
 
-        }
+//        }
     }
 
 
-
+    function savePartner2(){
+        storage.setValue("partner2",partner2.text);
+    }
+    function savePartner1(){
+        storage.setValue("partner1",partner1.text);
+    }
     Storage{
         id: storage
 
@@ -155,24 +180,24 @@ Page {
             dummyImagePath.text = storage.getValue("coupleImage")
         }
 
-        function saveSettings(){
-            if((partner1.text != undefined || partner1.text != "") && (partner2.text != undefined || partner2.text != "") && ( dateInput.text != undefined || dateInput.text != "")){
-                storage.setValue("partner1", partner1.text.trim());
-                storage.setValue("partner2",partner2.text.trim());
-                storage.setValue("startOfRelationShip", dummy.text)
-                storage.setValue("startOfRelationShipString", dateInput.text.trim())
-                console.debug(coupleImage)
-                storage.setValue("coupleImage",  dummyImagePath.text)
+//        function saveSettings(){
+//            partner1.deselect()
+//            partner2.deselect()
+//                storage.setValue("partner1", partner1.text);
+//                storage.setValue("partner2",partner2.text);
+//                storage.setValue("startOfRelationShip", dummy.text)
+//                storage.setValue("startOfRelationShipString", dateInput.text.trim())
+//                console.debug(coupleImage)
+//                storage.setValue("coupleImage",  dummyImagePath.text)
 
-                console.debug(storage.getValue("partner1"))
-                console.debug(storage.getValue("partner2"))
-                console.debug(storage.getValue("startOfRelationShip"))
-                navigationStack.pop(Qt.resolvedUrl(settings))
+//                console.debug(storage.getValue("partner1"))
+//                console.debug(storage.getValue("partner2"))
+//                console.debug(storage.getValue("startOfRelationShip"))
+//                storage.setValue("firstAppStart", true)
+//                navigationStack.pop(Qt.resolvedUrl(settings))
 
-            } else{
+//        }
 
-            }
-        }
 
 
 
@@ -180,4 +205,5 @@ Page {
     }
 
 }
+
 

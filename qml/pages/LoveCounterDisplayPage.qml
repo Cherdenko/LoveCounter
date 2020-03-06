@@ -20,11 +20,11 @@ import Felgo 3.0
 
     rightBarItem:  NavigationBarRow{
 
-        IconButtonBarItem{
-            id: refreshBar
-            icon: IconType.refresh
-            onClicked: refresh()
-        }
+//        IconButtonBarItem{
+//            id: refreshBar
+//            icon: IconType.refresh
+//            onClicked: refresh()
+//        }
 
         IconButtonBarItem{
             icon: IconType.cogs
@@ -34,14 +34,13 @@ import Felgo 3.0
 
     }
 
-
-
-//    AppFlickable{
-//        id : flickAblePageS
-//        anchors.fill: parent
-//        contentHeight: defaultColumn.height
-
-
+        Rectangle{
+            id: spacerForImageToSmall
+            color: "#4B0014"
+            y: coupleImage.y
+            width: parent.width
+            height: coupleImage.height
+        }
 
         Column{
 
@@ -97,9 +96,28 @@ import Felgo 3.0
                 text: getDates("Date") + qsTr(" Days")
 
             }
+//            Rectangle{
+//                id: animationHeader
+//                width: parent.width
+//              height: dp(20)
+//                color: "red"
+
+//            }
+//            AnimatedImage{
+
+//                y:animationHeader.bottom
+//                width: parent.width
+
+//                height: px(220)
+//                id: animation
+//                source: "../../assets/animiertes-herz-bild-0886.gif"
+//            }
+
 
 
         }
+
+
         Rectangle{
             y: textInPicture.y - 5
             color: "#4B0014"
@@ -117,13 +135,18 @@ import Felgo 3.0
             color: "white"
             text: settings.getValue("startOfRelationShipString")
         }
+
+
 //    }
     Storage{
 
         id: settings
 
         Component.onCompleted: {
-             //console.debug("Height of content "+ displayPage.flickable.height +  "height of screen " + screenHeight)
+           if(settings.getValue("firstAppStart") === false ||settings.getValue("firstAppStart") === undefined){
+                executeOrder66()
+            return
+           }
             var partner1 = settings.getValue("partner1")
             var partner2 = settings.getValue("partner2")
             var zusammenSeit = settings.getValue("startOfRelationShip")
@@ -137,7 +160,18 @@ import Felgo 3.0
     }
 
 
+    Connections{
+        target: navStack
+        onPopped:{
+            refresh()
+        }
+    }
+
     function refresh(){
+        if(settings.getValue("firstAppStart") === false ||settings.getValue("firstAppStart") === undefined){
+             executeOrder66()
+         return
+        }
         var partner1 = settings.getValue("partner1")
         var partner2 = settings.getValue("partner2")
         var zusammenSeit = settings.getValue("startOfRelationShip")
@@ -194,7 +228,7 @@ import Felgo 3.0
             return getDay(dateNow, dateGotTogether)
         }
 
-        // i need to do the same shit here as above, so i need to make displayMonths visible if it is refreshed
+
         if(value === "UPDATE_ALL"){
             displayYears.text = getYear(dateNow, dateGotTogether) + qsTr(" Years")
             displayMonths.text = getMonth(dateNow, dateGotTogether) + qsTr(" Months")
@@ -205,8 +239,13 @@ import Felgo 3.0
 
     }
     function executeOrder66(){
+        displayPage.title = "Love Counter"
+        centerItem.visible = false
+        displayYears.visible = false
+        displayMonths.visible = false
+        displayDays.visible = false
 
-        defaultColumn.visible = false
+
     }
 
 
