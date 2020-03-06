@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml</file>
+        <file>qml/config.json</file>
+        <file>qml/LoveCounterMain.qml</file>
+        <file>qml/LoveCounterMainItem.qml</file>
+        <file>qml/pages/LoveCounterDisplayPage.qml</file>
+        <file>qml/pages/LoveCounterInfoPage.qml</file>
+        <file>qml/pages/LoveCounterMainPage.qml</file>
+        <file>qml/pages/LoveCounterSettingsPage.qml</file>
     </qresource>
 </RCC>

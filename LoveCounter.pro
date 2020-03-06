@@ -60,6 +60,10 @@ macx {
 }
 
 DISTFILES += \
+    qml/LoveCounterMain.qml \
+    qml/LoveCounterMainItem.qml \
+    qml/config.json \
+    qml/pages/LoveCounterDisplayPage.qml \
     qml/pages/LoveCounterInfoPage.qml \
     qml/pages/LoveCounterMainPage.qml \
     qml/pages/LoveCounterSettingsPage.qml
