@@ -11,6 +11,11 @@ PRODUCT_IDENTIFIER = de.sourCeDev.LoveCounter
 PRODUCT_VERSION_NAME = 0.9.0
 PRODUCT_VERSION_CODE = 1
 
+
+ # this way, translations can be updated from inside QtCreator
+ TRANSLATIONS = qml/translations/de_DE.ts \
+                qml/translations/en_EN.ts
+
 # Optionally set a license key that is used instead of the license key from
 # main.qml file (App::licenseKey for your app or GameWindow::licenseKey for your game)
 # Only used for local builds and Felgo Cloud Builds (https://felgo.com/cloud-builds)
@@ -25,7 +30,7 @@ DEPLOYMENTFOLDERS += assetsFolder
 
 # Add more folders to ship with the application here
 
-RESOURCES +=     resources.qrc # uncomment for publishing
+RESOURCES += resources.qrc # uncomment for publishing
 
 # NOTE: for PUBLISHING, perform the following steps:
 # 1. comment the DEPLOYMENTFOLDERS += qmlFolder line above, to avoid shipping your qml files with the application (instead they get compiled to the app binary)

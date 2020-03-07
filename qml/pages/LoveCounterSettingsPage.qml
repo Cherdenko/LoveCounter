@@ -5,16 +5,16 @@ Page {
     property string coupleImage : ""
     id: settings
     title: qsTr("Love Counter")
-        rightBarItem:  NavigationBarRow{
+    rightBarItem:  NavigationBarRow{
 
 
-            IconButtonBarItem{
-                icon: IconType.info
-                title: qsTr("Info")
-                onClicked:   navigationStack.push(Qt.resolvedUrl("LoveCounterInfoPage.qml"))
-            }
-
+        IconButtonBarItem{
+            icon: IconType.info
+            title: qsTr("Info")
+            onClicked:   navigationStack.push(Qt.resolvedUrl("LoveCounterInfoPage.qml"))
         }
+
+    }
 
 
     Column{
@@ -49,8 +49,11 @@ Page {
             showClearButton: true
             placeholderText: "Name 1"
             inputMethodHints: Qt.ImhNoPredictiveText
-                  onEditingFinished: savePartner1()
+            onEditingFinished: savePartner1()
 
+            function savePartner1(){
+                storage.setValue("partner1",partner1.text);
+            }
         }
         AppText{
             width: parent.width
@@ -67,6 +70,11 @@ Page {
             placeholderText: "Name 2"
             inputMethodHints: Qt.ImhNoPredictiveText
             onEditingFinished: savePartner2()
+
+            function savePartner2(){
+                storage.setValue("partner2",partner2.text);
+            }
+
         }
 
         AppText{
@@ -87,6 +95,7 @@ Page {
             onClicked: {
                 nativeUtils.displayDatePicker(new Date(), new Date('1899-01-01T00:00:00'), new Date())
             }
+
         }
         AppText{
             width: parent.width
@@ -145,65 +154,23 @@ Page {
                     dateInput.text = displayValue
                     storage.setValue("startOfRelationShip", dummy.text)
                     storage.setValue("startOfRelationShipString", dateInput.text.trim())
-                                 storage.setValue("firstAppStart", true)
+                    storage.setValue("firstAppStart", true)
                 }
             }
-
-
         }
 
 
-//        AppButton{
-//            id:acceptSettings
-//            width: parent.width
-//            text: qsTr("Accept Settings")
-//            onClicked: storage.saveSettings()
+        Storage{
+            id: storage
 
-//        }
-    }
-
-
-    function savePartner2(){
-        storage.setValue("partner2",partner2.text);
-    }
-    function savePartner1(){
-        storage.setValue("partner1",partner1.text);
-    }
-    Storage{
-        id: storage
-
-        Component.onCompleted: {
-            partner1.text = storage.getValue("partner1")
-            partner2.text = storage.getValue("partner2")
-            dateInput.text = storage.getValue("startOfRelationShipString")
-            dummy.text = storage.getValue("startOfRelationShip")
-            dummyImagePath.text = storage.getValue("coupleImage")
+            Component.onCompleted: {
+                partner1.text = storage.getValue("partner1")
+                partner2.text = storage.getValue("partner2")
+                dateInput.text = storage.getValue("startOfRelationShipString")
+                dummy.text = storage.getValue("startOfRelationShip")
+                dummyImagePath.text = storage.getValue("coupleImage")
+            }
         }
-
-//        function saveSettings(){
-//            partner1.deselect()
-//            partner2.deselect()
-//                storage.setValue("partner1", partner1.text);
-//                storage.setValue("partner2",partner2.text);
-//                storage.setValue("startOfRelationShip", dummy.text)
-//                storage.setValue("startOfRelationShipString", dateInput.text.trim())
-//                console.debug(coupleImage)
-//                storage.setValue("coupleImage",  dummyImagePath.text)
-
-//                console.debug(storage.getValue("partner1"))
-//                console.debug(storage.getValue("partner2"))
-//                console.debug(storage.getValue("startOfRelationShip"))
-//                storage.setValue("firstAppStart", true)
-//                navigationStack.pop(Qt.resolvedUrl(settings))
-
-//        }
-
-
-
-
-
     }
 
 }
-
-
