@@ -5,7 +5,7 @@ Page {
     id: infoPage
     title: "Information"
     backgroundColor:  "#4B0014"
-
+    navigationBarHidden: true
     IconButton{
         id: closeButton
         icon: IconType.close
@@ -18,14 +18,11 @@ Page {
     Column{
 
         id: informationColumn
-        spacing: dp(Theme.navigationBar.defaultBarItemPadding)
-
-        width: parent.width
-
         anchors.left: parent.left
         anchors.top: closeButton.bottom;
         anchors.right: parent.right
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.margins: contentPadding
+        spacing: contentPadding
         AppText{
             color: "white"
             font.bold: true
@@ -35,7 +32,7 @@ Page {
             width: parent.width
             color: "white"
             wrapMode: "WrapAtWordBoundaryOrAnywhere"
-            text: qsTr("A little bit to my person first: I am currently an apprentice for the position of an application developer(I am allowed to call myself that as soon as im finished) in a small company in the south of germany. So this app was created to get a better understanding on how mobil apps work, and i think i learned quite a bit. <br\> So you might be asking youself, whats the purpose of this app : <br\> <br\> In the first place to please my girlfriend, as she's annoyed by the ads (of some of the competitors) and i thought i could do something like that myself!.<br\> <br\> In future versions you might find a changelog here :)")
+            text: qsTr("A little bit to my persona first: I am currently an apprentice for the position of an application developer(I am allowed to call myself that as soon as im finished) in a small company in the south of germany. So this app was created to get a better understanding on how mobil apps work, and i think i learned quite a bit. <br\> So you might be asking youself, whats the purpose of this app : <br\> <br\> In the first place to please my girlfriend, as she's annoyed by the ads (of some of the competitors) and i thought i could do something like that myself!.<br\> <br\> In future versions you might find a changelog here :)")
         }
         AppText{
             color: "white"

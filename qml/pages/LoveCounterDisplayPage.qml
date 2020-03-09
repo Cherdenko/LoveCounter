@@ -1,5 +1,7 @@
 import QtQuick 2.5
 import Felgo 3.0
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 
 FlickablePage{
 
@@ -25,6 +27,8 @@ FlickablePage{
         width: parent.width
         height: coupleImage.height
     }
+
+
 
     Column{
 
@@ -52,7 +56,6 @@ FlickablePage{
         AppText{
 
             id: centerItem
-
             width: parent.width
             horizontalAlignment: AppText.AlignHCenter
             text: qsTr("This means: ")
@@ -63,26 +66,145 @@ FlickablePage{
             id: displayYears
             width: parent.width
             horizontalAlignment: AppText.AlignHCenter
-            text: getDates("Year") + qsTr(" Years")
+            text: getDates("Year") + " " + qsTr("Years")
 
         }
         AppText {
             id: displayMonths
             width: parent.width
             horizontalAlignment: AppText.AlignHCenter
-            text:getDates("Months") + qsTr(" Months")
+            text:getDates("Months") + " " + qsTr("Months")
 
         }
         AppText {
             id: displayDays
             width: parent.width
             horizontalAlignment: AppText.AlignHCenter
-            text: getDates("Date") + qsTr(" Days")
+            text: getDates("Date") + " " +qsTr("Days")
 
         }
+
+            AppText{
+                id: settingsTip
+                visible: false
+                width: parent.width
+                horizontalAlignment:  AppText.AlignHCenter
+                wrapMode: "WrapAtWordBoundaryOrAnywhere"
+                text: qsTr("This seems to be your first app start. Please go to the settings, which you can access in the right top corner :)")
+
+
+
+            }
+
+
+
+
     }
+    // this is experimental as a ProgressBar
+    //    Column{
+
+    //        id: levelDisplayColumn
+    //        property real value: 1.0
+    //        anchors.left: parent.left
+    //        anchors.top:  defaultColumn.bottom;
+    //        anchors.right: parent.right
+    //        anchors.verticalCenter: parent.verticalCenter
+    //        spacing: contentPadding
 
 
+    //        Rectangle {
+    //          color: "white"
+    //          property alias text: timeText.text
+    //          width: 200
+    //          height: 200
+
+    //          Text {
+    //            id: timeText
+    //            font.family: fontLight.name
+    //            color: "#66bcb7"
+    //            font.pixelSize: 10
+    //            anchors.centerIn: parent
+    //          }
+
+    //          Row{
+    //            id: circle
+
+    //            property color circleColor: "transparent"
+    //            property color borderColor: "#66bcb7"
+    //            property int borderWidth: 2
+    //            anchors.centerIn: parent
+    //            width: parent.width-10
+    //            height: width
+
+    //            Item{
+    //              width: parent.width/2
+    //              height: parent.height
+    //              clip: true
+
+    //              Item{
+    //                id: part1
+    //                width: parent.width
+    //                height: parent.height
+    //                clip: true
+    //                rotation: levelDisplayColumn.value > 0.5 ? 360 : 180 + 360*levelDisplayColumn.value
+    //                transformOrigin: Item.Right
+
+    //                Rectangle{
+    //                  width: circle.width-(circle.borderWidth*2)
+    //                  height: circle.height-(circle.borderWidth*2)
+    //                  radius: width/2
+    //                  x:circle.borderWidth
+    //                  y:circle.borderWidth
+    //                  color: circle.circleColor
+    //                  border.color: circle.borderColor
+    //                  border.width: circle.borderWidth
+    //                  smooth: true
+    //                }
+    //              }
+    //            }
+
+    //            Item{
+    //              width: parent.width/2
+    //              height: parent.height
+    //              clip: true
+
+    //              Item{
+    //                id: part2
+    //                width: parent.width
+    //                height: parent.height
+    //                clip: true
+    //                rotation: levelDisplayColumn.value <= 0.5 ? 180 : 360*(levelDisplayColumn.value)
+    //                transformOrigin: Item.Left
+
+    //                Rectangle{
+    //                  width: circle.width-(circle.borderWidth*2)
+    //                  height: circle.height-(circle.borderWidth*2)
+    //                  radius: width/2
+    //                  x: -width/2
+    //                  y: circle.borderWidth
+    //                  color: circle.circleColor
+    //                  border.color: circle.borderColor
+    //                  border.width: circle.borderWidth
+    //                  smooth: true
+    //                }
+    //              }
+    //            }
+    //          }
+    //        }
+
+    //    }
+
+    //    Rectangle {
+    //        id: rectForItems
+    //        y: centerItem.y
+    //        x: centerItem.x
+    //        width: parent.width
+    //        height: displayDays.y - centerItem.y + centerItem.height
+    //        color: "transparent"
+    //        anchors.bottom: displayDays.bottom
+    //        border.color: "#4B0014"
+    //        border.width: 2
+    //    }
     Rectangle{
         y: textInPicture.y - 5
         color: "#4B0014"
@@ -98,26 +220,27 @@ FlickablePage{
         y: coupleImage.height -20
         font.family: "Arial"
         color: "white"
-        text: settings.getValue("startOfRelationShipString")
+        text: storage.getValue("startOfRelationShipString")
     }
 
 
-    //    }
+    ////////////// Here ends the display section
     Storage{
 
-        id: settings
+        id: storage
 
         Component.onCompleted: {
-            if(settings.getValue("firstAppStart") === false ||settings.getValue("firstAppStart") === undefined){
+
+            if(storage.getValue("firstAppStart") === false || storage.getValue("firstAppStart") === undefined){
                 executeOrder66()
                 return
             }
-            var partner1 = settings.getValue("partner1")
-            var partner2 = settings.getValue("partner2")
-            var zusammenSeit = settings.getValue("startOfRelationShip")
+            var partner1 = storage.getValue("partner1")
+            var partner2 = storage.getValue("partner2")
+            var zusammenSeit = storage.getValue("startOfRelationShip")
             displayPage.title = partner1 + " & " + partner2
-            if(settings.getValue("coupleImage") !== "")
-                coupleImage.source = settings.getValue("coupleImage")
+            if(storage.getValue("coupleImage") !== "")
+                coupleImage.source = storage.getValue("coupleImage")
             if(partner1 === undefined || partner2 === undefined || zusammenSeit === undefined ) executeOrder66()
         }
 
@@ -128,22 +251,31 @@ FlickablePage{
     Connections{
         target: navStack
         onPopped:{
+            console.debug(page)
             refresh()
         }
     }
 
     function refresh(){
-        if(settings.getValue("firstAppStart") === false ||settings.getValue("firstAppStart") === undefined){
+        storage.update()
+        if(storage.getValue("firstAppStart") === false ||storage.getValue("firstAppStart") === undefined){
             executeOrder66()
             return
         }
-        var partner1 = settings.getValue("partner1")
-        var partner2 = settings.getValue("partner2")
-        var zusammenSeit = settings.getValue("startOfRelationShip")
-        textInPicture.text =  settings.getValue("startOfRelationShipString")
+        if(storage.getValue("firstAppStart") === true){
+            settingsTip.visible = false
+            centerItem.visible = true
+            displayYears.visible = true
+            displayMonths.visible = true
+            displayDays.visible = true
+        }
+        var partner1 = storage.getValue("partner1")
+        var partner2 = storage.getValue("partner2")
+        var zusammenSeit = storage.getValue("startOfRelationShip")
+        textInPicture.text =  storage.getValue("startOfRelationShipString")
         displayPage.title = partner1 + " & " + partner2
-        if(settings.getValue("coupleImage") !== "")
-            coupleImage.source = settings.getValue("coupleImage")
+        if(storage.getValue("coupleImage") !== "")
+            coupleImage.source = storage.getValue("coupleImage")
         getDates("UPDATE_ALL")
 
 
@@ -161,28 +293,28 @@ FlickablePage{
     }
     function getMonth(dateNow, dateGotTogether){
         var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
-        if(diff.getUTCMonth() === 0 ){
+        if(diff.getMonth() === 0 ){
             displayMonths.visible = false
             return false
         } else{
             displayMonths.visible = true
-            return diff.getUTCMonth()
+            return diff.getMonth()
         }
     }
     function getDay(dateNow, dateGotTogether){
         var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
-        if(diff.getUTCDate === 0){
+        if(diff.getDate === 0){
             displayDays.visible = false
             return false
         }else{
             displayDays.visible = true
-            return diff.getUTCDate() - 1
+            return diff.getDate() - 1
         }
     }
 
     function getDates(value){
         var dateNow = new Date();
-        var dateGotTogether = new Date(settings.getValue("startOfRelationShip"))
+        var dateGotTogether = new Date(storage.getValue("startOfRelationShip"))
         if(value === "Year"){
             return getYear(dateNow, dateGotTogether)
         }
@@ -205,6 +337,7 @@ FlickablePage{
     }
     function executeOrder66(){
         displayPage.title = "Love Counter"
+        settingsTip.visible = true
         centerItem.visible = false
         displayYears.visible = false
         displayMonths.visible = false

@@ -15,7 +15,13 @@ Page {
         }
 
     }
+    onPopped:{
+        partner1.focus = false
+        partner2.focus = false
+        storage.setValue("partner2",partner2.text);
+        storage.setValue("partner1",partner1.text);
 
+    }
 
     Column{
 
@@ -48,12 +54,7 @@ Page {
             width: parent.width
             showClearButton: true
             placeholderText: "Name 1"
-            inputMethodHints: Qt.ImhNoPredictiveText
-            onEditingFinished: savePartner1()
-
-            function savePartner1(){
-                storage.setValue("partner1",partner1.text);
-            }
+            //inputMethodHints: Qt.ImhNoPredictiveText
         }
         AppText{
             width: parent.width
@@ -68,12 +69,7 @@ Page {
             width: parent.width
             showClearButton: true
             placeholderText: "Name 2"
-            inputMethodHints: Qt.ImhNoPredictiveText
-            onEditingFinished: savePartner2()
-
-            function savePartner2(){
-                storage.setValue("partner2",partner2.text);
-            }
+            //inputMethodHints: Qt.ImhNoPredictiveText
 
         }
 
@@ -155,6 +151,7 @@ Page {
                     storage.setValue("startOfRelationShip", dummy.text)
                     storage.setValue("startOfRelationShipString", dateInput.text.trim())
                     storage.setValue("firstAppStart", true)
+
                 }
             }
         }

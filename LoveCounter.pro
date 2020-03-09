@@ -71,4 +71,8 @@ DISTFILES += \
     qml/pages/LoveCounterDisplayPage.qml \
     qml/pages/LoveCounterInfoPage.qml \
     qml/pages/LoveCounterMainPage.qml \
-    qml/pages/LoveCounterSettingsPage.qml
+    qml/pages/LoveCounterSettingsPage.qml \
+    qml/translations/de_DE.qm \
+    qml/translations/de_DE.ts \
+    qml/translations/en_EN.qm \
+    qml/translations/en_EN.ts
