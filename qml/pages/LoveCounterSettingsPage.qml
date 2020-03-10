@@ -161,11 +161,17 @@ Page {
             id: storage
 
             Component.onCompleted: {
-                partner1.text = storage.getValue("partner1")
-                partner2.text = storage.getValue("partner2")
-                dateInput.text = storage.getValue("startOfRelationShipString")
-                dummy.text = storage.getValue("startOfRelationShip")
-                dummyImagePath.text = storage.getValue("coupleImage")
+                var partner1 = storage.getValue("partner1")
+                var partner2 = storage.getValue("partner2")
+                var dateInputString = storage.getValue("startOfRelationShipString")
+                var dateInput = storage.getValue("startOfRelationShip")
+                var coupleImage = storage.getValue("coupleImage")
+                if(partner1 !== undefined)partner1.text = partner1
+                if(partner2 !== undefined)partner2.text = partner2
+                if(dateInputString !== undefined)dateInput.text = dateInputString
+                if(dateInput !== undefined )dummy.text = dateInput
+                if(coupleImage !== undefined)dummyImagePath.text = coupleImage
+
             }
         }
     }

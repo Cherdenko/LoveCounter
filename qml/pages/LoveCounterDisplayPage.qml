@@ -234,7 +234,12 @@ FlickablePage{
         id: storage
 
         Component.onCompleted: {
-
+            storage.setValue("startOfRelationShip", undefined)
+            storage.setValue("startOfRelationShipString", undefined )
+            storage.setValue("firstAppStart", undefined)
+            storage.setValue("coupleImage", undefined)
+            storage.setValue("partner1", undefined)
+            storage.setValue("partner2", undefined)
             if(storage.getValue("firstAppStart") === false || storage.getValue("firstAppStart") === undefined){
                 executeOrder66()
                 return
@@ -245,7 +250,7 @@ FlickablePage{
             displayPage.title = partner1 + " & " + partner2
             if(storage.getValue("coupleImage") !== "")
                 coupleImage.source = storage.getValue("coupleImage")
-            if(partner1 === undefined || partner2 === undefined || zusammenSeit === undefined ) executeOrder66()
+
         }
 
 
@@ -278,9 +283,11 @@ FlickablePage{
         var zusammenSeit = storage.getValue("startOfRelationShip")
         textInPicture.text =  storage.getValue("startOfRelationShipString")
         displayPage.title = partner1 + " & " + partner2
-        if(storage.getValue("coupleImage") !== "")
-            coupleImage.source = storage.getValue("coupleImage")
         getDates("UPDATE_ALL")
+
+        if(storage.getValue("coupleImage") !== undefined) coupleImage.source = storage.getValue("coupleImage")
+
+
 
 
 
