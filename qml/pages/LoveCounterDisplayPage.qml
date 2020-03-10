@@ -234,12 +234,12 @@ FlickablePage{
         id: storage
 
         Component.onCompleted: {
-            storage.setValue("startOfRelationShip", undefined)
-            storage.setValue("startOfRelationShipString", undefined )
-            storage.setValue("firstAppStart", undefined)
-            storage.setValue("coupleImage", undefined)
-            storage.setValue("partner1", undefined)
-            storage.setValue("partner2", undefined)
+//            storage.setValue("startOfRelationShip", undefined)
+//            storage.setValue("startOfRelationShipString", undefined )
+//            storage.setValue("firstAppStart", undefined)
+//            storage.setValue("coupleImage", undefined)
+//            storage.setValue("partner1", undefined)
+//            storage.setValue("partner2", undefined)
             if(storage.getValue("firstAppStart") === false || storage.getValue("firstAppStart") === undefined){
                 executeOrder66()
                 return
