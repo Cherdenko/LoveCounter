@@ -54,7 +54,7 @@ FlickablePage{
 
         }
         AppText{
-
+             color: "#4B0014"
             id: centerItem
             width: parent.width
             horizontalAlignment: AppText.AlignHCenter
@@ -63,28 +63,32 @@ FlickablePage{
         }
 
         AppText {
+            color: "#4B0014"
             id: displayYears
             width: parent.width
             horizontalAlignment: AppText.AlignHCenter
-            text: getDates("Year") + " " + qsTr("Years")
+            text: getDates("Year") + " " + qsTr("Year(s)")
 
         }
         AppText {
+            color: "#4B0014"
             id: displayMonths
             width: parent.width
             horizontalAlignment: AppText.AlignHCenter
-            text:getDates("Months") + " " + qsTr("Months")
+            text: qsTr("or") + " "+getDates("Months") + " " + qsTr("Month(s)")
 
         }
         AppText {
+             color: "#4B0014"
             id: displayDays
             width: parent.width
             horizontalAlignment: AppText.AlignHCenter
-            text: getDates("Date") + " " +qsTr("Days")
+            text: qsTr("or") + " " + getDates("Date") + " " +qsTr("Day(s)")
 
         }
 
             AppText{
+                color: "#4B0014"
                 id: settingsTip
                 visible: false
                 width: parent.width
@@ -281,36 +285,75 @@ FlickablePage{
 
 
     }
+//    function getYear(dateNow, dateGotTogether){
+//        var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
+//        if(diff.getUTCFullYear() -1970 === 0){
+//            displayYears.visible = false
+//            return false
+//        } else{
+//            displayYears.visible = true
+//            return diff.getUTCFullYear() -1970
+//        }
+//    }
+//    function getMonth(dateNow, dateGotTogether){
+//        var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
+//        if(diff.getMonth() === 0 ){
+//            displayMonths.visible = false
+//            return false
+//        } else{
+//            displayMonths.visible = true
+//            return diff.getMonth()
+//        }
+//    }
+//    function getDay(dateNow, dateGotTogether){
+//        var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
+//        if(diff.getDate === 0){
+//            displayDays.visible = false
+//            return false
+//        }else{
+//            displayDays.visible = true
+//            return diff.getDate() - 1
+//        }
+//    }
     function getYear(dateNow, dateGotTogether){
         var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
-        if(diff.getUTCFullYear() -1970 === 0){
-            displayYears.visible = false
-            return false
-        } else{
+//        if(diff.getUTCFullYear() -1970 === 0){
+//            displayYears.visible = false
+//            return false
+//        } else{
             displayYears.visible = true
             return diff.getUTCFullYear() -1970
-        }
+        //}
     }
     function getMonth(dateNow, dateGotTogether){
-        var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
-        if(diff.getMonth() === 0 ){
-            displayMonths.visible = false
-            return false
-        } else{
+        var d1Y = dateGotTogether.getFullYear();
+        var d2Y = dateNow.getFullYear();
+        var d1M = dateGotTogether.getMonth();
+        var d2M = dateNow.getMonth();
+        var diff = (d2M+12*d2Y)-(d1M+12*d1Y);
+//        if(diff === 0 ){
+//            displayMonths.visible = false
+//            return false
+//        } else{
             displayMonths.visible = true
-            return diff.getMonth()
-        }
+            return diff
+        //}
     }
     function getDay(dateNow, dateGotTogether){
-        var diff =new Date(dateNow.getTime() - dateGotTogether.getTime())
-        if(diff.getDate === 0){
-            displayDays.visible = false
-            return false
-        }else{
-            displayDays.visible = true
-            return diff.getDate() - 1
-        }
+      var diff = Math.floor((dateNow - dateGotTogether) / (1000*60*60*24))
+//        console.debug(diff)
+//        if(diff === 0){
+//            displayDays.visible = false
+//            return false
+//        }else if(diff === 1 ){
+//            displayDays.visible = true
+//            return diff
+//        } else {
+        displayDays.visible = true
+        return  diff
+    //}
     }
+
 
     function getDates(value){
         var dateNow = new Date();
@@ -327,9 +370,9 @@ FlickablePage{
 
 
         if(value === "UPDATE_ALL"){
-            displayYears.text = getYear(dateNow, dateGotTogether) + qsTr(" Years")
-            displayMonths.text = getMonth(dateNow, dateGotTogether) + qsTr(" Months")
-            displayDays.text = getDay(dateNow, dateGotTogether) + qsTr(" Days")
+            displayYears.text = getYear(dateNow, dateGotTogether) + " " + qsTr("Year(s)")
+            displayMonths.text = qsTr("or") + " " +  getMonth(dateNow, dateGotTogether) + " " + qsTr("Month(s)")
+            displayDays.text = qsTr("or") + " " + getDay(dateNow, dateGotTogether) + " " + qsTr("Day(s)")
         }
 
 
@@ -342,8 +385,6 @@ FlickablePage{
         displayYears.visible = false
         displayMonths.visible = false
         displayDays.visible = false
-
-
     }
 
 

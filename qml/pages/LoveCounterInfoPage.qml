@@ -1,7 +1,9 @@
 import QtQuick 2.0
 import Felgo 3.0
 
-Page {
+FlickablePage {
+
+    flickable.contentHeight: informationColumn.height + 100
     id: infoPage
     title: "Information"
     backgroundColor:  "#4B0014"
@@ -45,6 +47,14 @@ Page {
             color: "white"
             text:  "DEsourCeDev@gmail.com"
         }
+
+        AppText{
+            id: credits
+            width: parent.width
+            color: "white"
+            text:  qsTr("Credit where Credit is due: <br\><br\> Thx a lot to Stitch for designing this beautifull icon :) <br\><br\> Also thanks a lot to his girlfriend for the first draft :)<br\> <br\> Thanks to my 2 internal testers(my girlfriend and my bestmates girfriend :)) ")
+        }
+
 
     }
 
